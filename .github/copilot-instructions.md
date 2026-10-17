@@ -7,14 +7,14 @@ This repository is a Slidev-based presentation system. Treat presentation work a
 - `content/source.txt`: automatic verbatim record of the source text for the current deck. Save it when creating a deck; users do not need to prepare this file. Keep presentation requirements separate from source facts. Never invent facts, metrics, owners, dates, evidence, or causal claims not supported by the source.
 - `content/source.md`: legacy source for existing decks only when `content/source.txt` does not exist. Do not use it as a fallback input for a new `/create-deck` invocation or combine it with new source text.
 - `content/storyline.md`: current narrative plan. Update only when the user requests storyline/deck-level changes.
-- `slides.md`: presentation entry point. Each slide must include `src: ./slides/NN-name.md` and page content must live in the referenced file.
-- `slides/*.md`: one file per slide. For a slide-specific revision, modify only that slide unless a shared component must change.
+- `content/slides.md`: presentation entry point. Each slide must include `src: ./slides/NN-name.md` relative to this entry and page content must live in the referenced file. Set `addons: ['@/..']` in deck headmatter to load shared components, styles, and global overlays from the workspace root. Slidev's `@/` anchors this path to the entry folder.
+- `content/slides/*.md`: one file per slide. For a slide-specific revision, modify only that slide unless a shared component must change.
 - `components/*.vue`: reusable visual patterns.
 - `styles/index.css`: global design system. Do not modify for a local slide request.
 
 ## Local presentation data
-- Keep `content/`, `slides.md`, `slides/`, `public/`, and `dist/` local and excluded from Git. This includes source records, storylines, slide content, attachments, and exported presentations.
-- Store presentation-specific assets in `public/` and exports in `dist/`. Do not embed source material or deck-specific assets in tracked skills, shared components, styles, or documentation.
+- Keep all presentation data under the Git-ignored `content/` folder: source records, storylines, `content/slides.md`, `content/slides/`, `content/public/`, and `content/dist/`. Do not recreate presentation data folders at the workspace root.
+- Store presentation-specific assets in `content/public/` and exports in `content/dist/`. Public assets are referenced by URL (for example `/image.png`), not by filesystem location. Shared tooling stays at the workspace root. Do not embed source material or deck-specific assets in tracked skills, shared components, styles, or documentation.
 - Do not force-add ignored presentation data or remove its ignore rules. Commit shared presentation tooling only, unless the user explicitly changes this policy.
 
 ## Narrative rules
@@ -54,11 +54,17 @@ Do not force a diagram when the source does not support a relationship.
 
 ## Revision safety
 When asked to revise slide N:
-1. Locate the Nth `src` entry in `slides.md`.
-2. Modify only that `slides/NN-*.md` file by default.
+1. Locate the Nth `src` entry in `content/slides.md`.
+2. Modify only that `content/slides/NN-*.md` file by default.
 3. Do not modify other slides, `storyline.md`, global CSS, or shared components unless explicitly required.
 4. Preserve factual meaning unless the user asks to change content.
 5. After revision, briefly state exactly which file changed.
+
+## Slide insertion
+- Use `/insert-slide` to add a page without replacing an existing slide. Count positions from ordered `src` entries in `content/slides.md`, including the cover as page 1.
+- "Insert at page N" makes the new slide page N and shifts later pages back; "after page N" inserts at N+1. Ask before moving the cover away from the first position.
+- Add a unique slide file and its `src` reference; preserve existing slide files, filenames, relative order, metadata, and shared styles. Automatic page numbering must follow the new order.
+- A slide insertion permits a narrow update of the existing storyline's order/count and appending newly supplied material to the local source snapshot, not a deck-wide rewrite.
 
 ## Build validation
 After material changes, run `npm run build` when possible. For PDF export use `npm run export`.

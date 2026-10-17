@@ -17,9 +17,9 @@ npm install
 ## 기본 작업 흐름
 1. Copilot Chat에서 `/create-deck`를 선택하고, 같은 메시지에 원문 텍스트를 붙여넣습니다. Markdown 파일이나 첨부파일은 필요하지 않습니다.
 2. 필요하면 청중, 발표 목적, 발표 시간도 함께 적습니다. 원문이 없으면 Copilot이 채팅으로 입력을 요청하며, 이전 원문으로 덱을 임의 생성하지 않습니다.
-3. Copilot이 입력 내용에 맞춰 발표 구조·장수·시각화를 선택하고 `content/storyline.md`, `slides.md`, `slides/*.md`를 생성/갱신합니다. 원문은 이후 수정·검토를 위해 `content/source.txt`에 자동 보관됩니다.
+3. Copilot이 입력 내용에 맞춰 발표 구조·장수·시각화를 선택하고 `content/storyline.md`, `content/slides.md`, `content/slides/*.md`를 생성/갱신합니다. 원문은 이후 수정·검토를 위해 `content/source.txt`에 자동 보관됩니다.
 4. 브라우저 preview를 확인합니다.
-5. 특정 장표 수정은 `/revise-slide`을 사용하거나 해당 `slides/NN-*.md`를 직접 편집합니다.
+5. 특정 장표 수정은 `/revise-slide`을 사용하거나 해당 `content/slides/NN-*.md`를 직접 편집합니다.
 6. 전체 검토는 `/review-deck`을 사용합니다.
 7. PDF: `npm run export`
 8. 웹 배포용 build: `npm run build`
@@ -28,12 +28,13 @@ npm install
 새 덱은 발표 제목과 짧은 부제가 있는 표지로 시작합니다. 표지를 포함한 모든 장표의 오른쪽 아래에는 `현재 페이지 / 전체 페이지` 형식의 쪽번호가 1부터 자동 표시됩니다. 장표 추가·삭제·순서 변경 시 번호와 전체 장수가 함께 갱신됩니다. 발표자·소속·날짜는 사용자가 제공한 경우에만 표지에 넣습니다.
 
 ## 프로젝트 스킬
-기존 작업 프롬프트 4개는 `.github/skills/<이름>/SKILL.md` 형식의 프로젝트 스킬로 전환되어 있습니다.
+발표 작업은 `.github/skills/<이름>/SKILL.md` 형식의 프로젝트 스킬 5개로 제공합니다.
 
 | 명령 | 역할 |
 | --- | --- |
 | `/create-deck` | 채팅에 붙여넣은 원문으로 발표 구성과 슬라이드 생성 |
 | `/revise-slide` | 지정한 슬라이드의 문구·구성 수정 |
+| `/insert-slide` | 지정한 페이지에 새 장표 삽입; 기존 장표는 유지하고 뒤로 이동 |
 | `/change-visual` | 사실과 메시지를 유지하며 지정한 슬라이드의 시각화 변경 |
 | `/review-deck` | 전체 덱의 흐름·근거·밀도·일관성·렌더링 검토 |
 
@@ -65,35 +66,61 @@ Copilot Chat:
 > /revise-slide
 > 5페이지를 수정해줘. Diagnose와 Redesign의 차이가 더 즉각적으로 보이게 하고, 텍스트는 20% 줄여줘.
 
-Copilot은 `slides.md`의 5번째 `src`를 찾아 해당 파일만 수정하도록 지시되어 있습니다.
+Copilot은 `content/slides.md`의 5번째 `src`를 찾아 해당 파일만 수정하도록 지시되어 있습니다.
+
+## 원하는 페이지에 장표 추가하기
+```text
+/insert-slide
+5페이지에 새 장표를 삽입해줘.
+내용: 여기에 새 장표로 만들 원문을 붙여넣으세요.
+```
+
+새 장표가 5페이지가 되고 기존 5페이지부터는 한 페이지씩 뒤로 이동합니다. `5페이지 뒤에 삽입`이라고 하면 새 장표는 6페이지가 됩니다. 표지도 1페이지로 세며, `맨 끝에 추가`도 사용할 수 있습니다. 표지 앞에 삽입하려는 경우에는 먼저 의도를 확인합니다.
+
+기존 장표를 덮어쓰거나 파일명을 일괄 변경하지 않습니다. 새 장표 파일과 진입점 참조를 추가하고, 필요한 원문·스토리라인만 갱신하며 쪽번호와 전체 장수는 자동으로 반영됩니다. 위치나 내용이 빠져 있으면 입력을 요청합니다.
 
 ## 구조
 - 채팅의 `/create-deck` 입력 텍스트 — 새 덱의 원문 Source of Truth
 - `content/source.txt` — 채팅 원문의 자동 보관본; 직접 작성할 필요 없음
 - `content/source.md` — 기존 덱용 이전 원문; 자동 보관본이 없는 기존 덱 검토에만 사용
 - `content/storyline.md` — 발표 논리/장표 계획
-- `slides.md` — Slidev entry; 페이지별 파일을 참조
-- `slides/` — 페이지별 Markdown
+- `content/slides.md` — Slidev entry; `./slides/` 기준으로 페이지별 파일을 참조
+- `content/slides/` — 페이지별 Markdown
+- `content/public/` — 첨부 이미지 등 자산; 슬라이드에서는 `/image.png` 형태의 URL로 참조
+- `content/dist/` — 웹 빌드 및 PDF/PPTX 결과물
 - `components/` — 재사용 Visual Components
 - `global-bottom.vue` — 표지를 포함한 전체 슬라이드의 자동 쪽번호
 - `styles/index.css` — 공통 디자인 시스템
 - `.github/copilot-instructions.md` — Copilot의 프로젝트 공통 규칙
-- `.github/skills/` — create/revise/change/review 프로젝트 스킬
+- `.github/skills/` — create/revise/insert/change/review 프로젝트 스킬
 
 ## PDF / Download
-`npm run export`는 `dist/presentation.pdf`를 생성합니다. `npm run build`에는 Slidev의 `--download` 옵션이 포함되어 있어 빌드된 SPA에서도 PDF 다운로드 기능을 사용할 수 있습니다.
+`npm run build`는 `content/dist/`에 웹 빌드를, `npm run export`는 `content/dist/presentation.pdf`를, `npm run export:pptx`는 `content/dist/presentation.pptx`를 생성합니다. 빌드에는 Slidev의 `--download` 옵션이 포함되어 있어 빌드된 SPA에서도 PDF 다운로드 기능을 사용할 수 있습니다.
+
+## 로컬 발표 폴더
+입력과 결과물은 모두 `content/` 하나 아래에서 관리합니다.
+
+```text
+content/
+  source.md         # 사용자가 제공한 원문 파일이 있는 경우
+  source.txt        # 원문 자동 보관본
+  storyline.md      # 발표 구성
+  slides.md         # 발표 진입점
+  slides/           # 표지 및 개별 장표
+  public/           # 첨부 이미지
+  dist/             # 웹/PDF/PPTX 결과물
+```
+
+공통 컴포넌트, 스타일, 자동 쪽번호는 프로젝트 루트에 남습니다. `content/slides.md`의 첫 frontmatter에 `addons: ['@/..']`를 설정해 이 공통 도구를 불러옵니다. `@/`는 Slidev 진입점 폴더를 기준으로 하므로 상위 프로젝트 루트를 정확히 가리킵니다. 별도 파일 복제 없이 새 덱에서도 같은 디자인과 쪽번호를 사용합니다.
 
 ## Git 관리 범위
 GitHub에는 스킬, 공통 컴포넌트, 디자인 시스템, 패키지 설정 등 제작 도구만 관리합니다. 다음 경로는 `.gitignore`로 제외하며 로컬 파일은 유지합니다.
 
 | 경로 | 로컬 전용 내용 |
 | --- | --- |
-| `content/` | 입력 원문, 자동 보관본, 스토리라인 |
-| `slides.md`, `slides/` | 발표 진입점과 생성·수정된 장표 |
-| `public/` | 첨부 이미지 등 발표용 자산 |
-| `dist/` | 웹 빌드, PDF, PPTX 산출물 |
+| `content/` | 입력 원문, 자동 보관본, 스토리라인, 발표 진입점, 장표, 첨부 이미지, 웹/PDF/PPTX 결과물 전체 |
 
-발표별 자산은 `public/`, 내보내기 파일은 `dist/` 안에 저장하세요. 이 파일들을 강제로 추가하거나 원문을 추적 중인 제작 도구 파일에 복사하지 않습니다.
+발표별 자산은 `content/public/`, 내보내기 파일은 `content/dist/` 안에 저장하세요. 이전 구조의 루트 `slides.md`, `slides/`, `public/`, `dist/` 제외 규칙도 실수로 다시 추적되지 않도록 유지합니다. 이 파일들을 강제로 추가하거나 원문을 추적 중인 제작 도구 파일에 복사하지 않습니다.
 
 이미 추적된 파일은 로컬을 삭제하지 않고 Git 인덱스에서 제외해야 합니다. 이 변경을 커밋·푸시하면 최신 브랜치에서는 제거되지만 **과거 커밋의 원문이나 결과물은 남습니다.** 민감한 자료를 과거 이력에서도 삭제하려면 별도 이력 정리와 협업자 조율이 필요합니다.
 

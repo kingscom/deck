@@ -7,7 +7,7 @@ user-invocable: true
 # Change Visual
 
 All project file paths below are relative to the workspace root, not this skill folder.
-Read `.github/copilot-instructions.md` and locate the requested slide using the ordered `src` entries in `slides.md`. If the target slide or visual request is missing or ambiguous, ask one focused question before editing.
+Read `.github/copilot-instructions.md` and locate the requested slide using the ordered `src` entries in `content/slides.md`, resolving paths relative to that entry. Slide files live in `content/slides/`, and presentation assets in `content/public/` use URLs such as `/image.png`. If the target slide or visual request is missing or ambiguous, ask one focused question before editing.
 Change only the requested slide's visual treatment.
 Preserve its headline, factual meaning, and source-supported content unless the user explicitly requests copy changes.
 Choose a visual pattern based on semantic relation, not decoration.

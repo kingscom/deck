@@ -11,7 +11,7 @@ All project file paths below are relative to the workspace root, not this skill 
 Read `.github/copilot-instructions.md` before editing. If the slide number or requested change is missing or ambiguous, ask one focused question before changing files.
 
 Hard rules:
-- Find the slide file from the ordered `src` entries in `slides.md`.
+- Find the slide file from the ordered `src` entries in `content/slides.md`, resolving paths relative to that entry. Slide files live in `content/slides/`; copied attachments go in `content/public/` and use URLs such as `/image.png`.
 - Modify only that slide file unless the user explicitly asks for a global change.
 - Do not alter facts or add unsupported evidence.
 - Do not edit global CSS or shared components merely to solve one slide.
