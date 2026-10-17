@@ -10,10 +10,9 @@ Confluence의 긴 텍스트를 GitHub Copilot로 발표 구조로 재구성하�
 ## Start
 ```bash
 npm install
-npm run dev
 ```
 
-브라우저에서 Slidev preview가 열립니다.
+새로 clone한 프로젝트에는 원문이나 생성된 슬라이드가 포함되지 않습니다. 먼저 아래 `/create-deck` 작업으로 덱을 생성한 다음 `npm run dev`를 실행하면 브라우저에서 Slidev preview가 열립니다.
 
 ## 기본 작업 흐름
 1. Copilot Chat에서 `/create-deck`를 선택하고, 같은 메시지에 원문 텍스트를 붙여넣습니다. Markdown 파일이나 첨부파일은 필요하지 않습니다.
@@ -25,6 +24,8 @@ npm run dev
 7. PDF: `npm run export`
 8. 웹 배포용 build: `npm run build`
 9. 편집 가능한 PPTX 시도: `npm run export:pptx`
+
+새 덱은 발표 제목과 짧은 부제가 있는 표지로 시작합니다. 표지를 포함한 모든 장표의 오른쪽 아래에는 `현재 페이지 / 전체 페이지` 형식의 쪽번호가 1부터 자동 표시됩니다. 장표 추가·삭제·순서 변경 시 번호와 전체 장수가 함께 갱신됩니다. 발표자·소속·날짜는 사용자가 제공한 경우에만 표지에 넣습니다.
 
 ## 프로젝트 스킬
 기존 작업 프롬프트 4개는 `.github/skills/<이름>/SKILL.md` 형식의 프로젝트 스킬로 전환되어 있습니다.
@@ -74,12 +75,27 @@ Copilot은 `slides.md`의 5번째 `src`를 찾아 해당 파일만 수정하도�
 - `slides.md` — Slidev entry; 페이지별 파일을 참조
 - `slides/` — 페이지별 Markdown
 - `components/` — 재사용 Visual Components
+- `global-bottom.vue` — 표지를 포함한 전체 슬라이드의 자동 쪽번호
 - `styles/index.css` — 공통 디자인 시스템
 - `.github/copilot-instructions.md` — Copilot의 프로젝트 공통 규칙
 - `.github/skills/` — create/revise/change/review 프로젝트 스킬
 
 ## PDF / Download
 `npm run export`는 `dist/presentation.pdf`를 생성합니다. `npm run build`에는 Slidev의 `--download` 옵션이 포함되어 있어 빌드된 SPA에서도 PDF 다운로드 기능을 사용할 수 있습니다.
+
+## Git 관리 범위
+GitHub에는 스킬, 공통 컴포넌트, 디자인 시스템, 패키지 설정 등 제작 도구만 관리합니다. 다음 경로는 `.gitignore`로 제외하며 로컬 파일은 유지합니다.
+
+| 경로 | 로컬 전용 내용 |
+| --- | --- |
+| `content/` | 입력 원문, 자동 보관본, 스토리라인 |
+| `slides.md`, `slides/` | 발표 진입점과 생성·수정된 장표 |
+| `public/` | 첨부 이미지 등 발표용 자산 |
+| `dist/` | 웹 빌드, PDF, PPTX 산출물 |
+
+발표별 자산은 `public/`, 내보내기 파일은 `dist/` 안에 저장하세요. 이 파일들을 강제로 추가하거나 원문을 추적 중인 제작 도구 파일에 복사하지 않습니다.
+
+이미 추적된 파일은 로컬을 삭제하지 않고 Git 인덱스에서 제외해야 합니다. 이 변경을 커밋·푸시하면 최신 브랜치에서는 제거되지만 **과거 커밋의 원문이나 결과물은 남습니다.** 민감한 자료를 과거 이력에서도 삭제하려면 별도 이력 정리와 협업자 조율이 필요합니다.
 
 ## 설계 원칙
 - One slide = one message

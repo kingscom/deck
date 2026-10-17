@@ -12,6 +12,11 @@ This repository is a Slidev-based presentation system. Treat presentation work a
 - `components/*.vue`: reusable visual patterns.
 - `styles/index.css`: global design system. Do not modify for a local slide request.
 
+## Local presentation data
+- Keep `content/`, `slides.md`, `slides/`, `public/`, and `dist/` local and excluded from Git. This includes source records, storylines, slide content, attachments, and exported presentations.
+- Store presentation-specific assets in `public/` and exports in `dist/`. Do not embed source material or deck-specific assets in tracked skills, shared components, styles, or documentation.
+- Do not force-add ignored presentation data or remove its ignore rules. Commit shared presentation tooling only, unless the user explicitly changes this policy.
+
 ## Narrative rules
 1. One slide = one message.
 2. Use conclusion-style headlines, not section labels.
@@ -38,6 +43,8 @@ Do not force a diagram when the source does not support a relationship.
 
 ## Design rules
 - 16:9 presentation canvas.
+- Every new deck starts with a dedicated cover containing a source-supported title and concise subtitle. Do not invent presenter, organization, or date metadata.
+- Every slide, including the cover, shows an automatic bottom-right `current / total` page number starting at 1. Use the root `global-bottom.vue` with Slidev's `SlideCurrentNo` and `SlidesTotal`; never hardcode numbers in slide files. Keep footer space clear and preserve numbering during revisions.
 - Minimal editorial business style.
 - Strong typography, generous whitespace, restrained accent color.
 - Maximum 3 major content zones per slide.
