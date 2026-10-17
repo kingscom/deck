@@ -1,0 +1,17 @@
+{
+  "name": "slidev-copilot-presentation",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "slidev slides.md --open",
+    "build": "slidev build slides.md --out dist --download",
+    "export": "slidev export slides.md --format pdf --output dist/presentation.pdf",
+    "export:pptx": "slidev export slides.md --format pptx-editable --output dist/presentation.pptx"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^53.0.0",
+    "@slidev/theme-default": "latest",
+    "playwright-chromium": "latest"
+  }
+}
