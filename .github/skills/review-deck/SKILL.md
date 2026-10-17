@@ -1,7 +1,13 @@
 ---
-agent: agent
-description: Review the whole deck for narrative, density, consistency, and rendering issues.
+name: review-deck
+description: "Review a Slidev presentation for narrative, density, source fidelity, consistency, and rendering issues. Use for /review-deck, reviewing a deck, checking unsupported claims, or auditing slide quality."
+argument-hint: "Optionally specify review priorities or explicitly request fixes."
+user-invocable: true
 ---
+# Review Deck
+
+All project file paths below are relative to the workspace root, not this skill folder.
+Read `.github/copilot-instructions.md` before reviewing.
 Review `content/source.txt` (the source text automatically recorded from chat), `content/storyline.md`, `slides.md`, and all referenced slide files. For an existing deck without `content/source.txt`, use legacy `content/source.md` instead; do not combine the two. If neither source record exists, ask the user to paste the original text before assessing factual support.
 Check:
 - storyline continuity

@@ -26,6 +26,18 @@ npm run dev
 8. 웹 배포용 build: `npm run build`
 9. 편집 가능한 PPTX 시도: `npm run export:pptx`
 
+## 프로젝트 스킬
+기존 작업 프롬프트 4개는 `.github/skills/<이름>/SKILL.md` 형식의 프로젝트 스킬로 전환되어 있습니다.
+
+| 명령 | 역할 |
+| --- | --- |
+| `/create-deck` | 채팅에 붙여넣은 원문으로 발표 구성과 슬라이드 생성 |
+| `/revise-slide` | 지정한 슬라이드의 문구·구성 수정 |
+| `/change-visual` | 사실과 메시지를 유지하며 지정한 슬라이드의 시각화 변경 |
+| `/review-deck` | 전체 덱의 흐름·근거·밀도·일관성·렌더링 검토 |
+
+이 프로젝트 루트 폴더를 VS Code에서 열고 새 채팅의 `/` 목록에서 스킬 이름을 검색합니다. 추가 직후 보이지 않으면 `Developer: Reload Window`를 실행한 뒤 새 채팅에서 확인하세요. 사용 중인 채팅 환경이 프로젝트 스킬을 지원하고 활성화되어 있어야 합니다.
+
 ## 텍스트로 덱 만들기
 Copilot Chat에서 `/create-deck`를 선택한 뒤 다음처럼 입력합니다.
 
@@ -64,7 +76,7 @@ Copilot은 `slides.md`의 5번째 `src`를 찾아 해당 파일만 수정하도�
 - `components/` — 재사용 Visual Components
 - `styles/index.css` — 공통 디자인 시스템
 - `.github/copilot-instructions.md` — Copilot의 프로젝트 공통 규칙
-- `.github/prompts/` — create/revise/change/review 작업 프롬프트
+- `.github/skills/` — create/revise/change/review 프로젝트 스킬
 
 ## PDF / Download
 `npm run export`는 `dist/presentation.pdf`를 생성합니다. `npm run build`에는 Slidev의 `--download` 옵션이 포함되어 있어 빌드된 SPA에서도 PDF 다운로드 기능을 사용할 수 있습니다.

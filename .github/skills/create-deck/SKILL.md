@@ -1,9 +1,14 @@
 ---
-agent: agent
-description: Create a complete Slidev presentation from text pasted directly into chat.
+name: create-deck
+description: "Create a complete Slidev presentation from text pasted directly into chat. Use for /create-deck, creating a presentation, generating slides, or turning source text into a deck."
 argument-hint: "Paste your source text; optionally include audience, goal, and presentation length."
+user-invocable: true
 ---
+# Create Deck
+
 Create a complete Slidev presentation from the source text the user supplies with `/create-deck` in chat. Plain text is sufficient; do not require Markdown formatting, a file attachment, or manual editing of a source file.
+
+All project file paths below are relative to the workspace root, not this skill folder.
 
 ## Input
 - Use the text supplied with this invocation as the source of truth. Separate presentation requirements (audience, goal, duration, tone) from source material.
