@@ -28,13 +28,14 @@ npm install
 새 덱은 발표 제목과 짧은 부제가 있는 표지로 시작합니다. 표지를 포함한 모든 장표의 오른쪽 아래에는 `현재 페이지 / 전체 페이지` 형식의 쪽번호가 1부터 자동 표시됩니다. 장표 추가·삭제·순서 변경 시 번호와 전체 장수가 함께 갱신됩니다. 발표자·소속·날짜는 사용자가 제공한 경우에만 표지에 넣습니다.
 
 ## 프로젝트 스킬
-발표 작업은 `.github/skills/<이름>/SKILL.md` 형식의 프로젝트 스킬 5개로 제공합니다.
+발표 작업은 `.github/skills/<이름>/SKILL.md` 형식의 프로젝트 스킬 6개로 제공합니다.
 
 | 명령 | 역할 |
 | --- | --- |
 | `/create-deck` | 채팅에 붙여넣은 원문으로 발표 구성과 슬라이드 생성 |
 | `/revise-slide` | 지정한 슬라이드의 문구·구성 수정 |
 | `/insert-slide` | 지정한 페이지에 새 장표 삽입; 기존 장표는 유지하고 뒤로 이동 |
+| `/delete-slide` | 지정한 페이지를 발표에서 제외; 나머지 장표와 자동 쪽번호 유지 |
 | `/change-visual` | 사실과 메시지를 유지하며 지정한 슬라이드의 시각화 변경 |
 | `/review-deck` | 전체 덱의 흐름·근거·밀도·일관성·렌더링 검토 |
 
@@ -79,6 +80,16 @@ Copilot은 `content/slides.md`의 5번째 `src`를 찾아 해당 파일만 수�
 
 기존 장표를 덮어쓰거나 파일명을 일괄 변경하지 않습니다. 새 장표 파일과 진입점 참조를 추가하고, 필요한 원문·스토리라인만 갱신하며 쪽번호와 전체 장수는 자동으로 반영됩니다. 위치나 내용이 빠져 있으면 입력을 요청합니다.
 
+## 특정 페이지 삭제하기
+```text
+/delete-slide
+5페이지를 삭제해줘.
+```
+
+`3, 5페이지 삭제` 또는 `4~6페이지 삭제`처럼 여러 페이지도 지정할 수 있습니다. 표지를 1페이지로 세며, 여러 번호는 모두 삭제 전의 페이지 순서를 기준으로 처리합니다. 뒤의 장표는 앞으로 이동하고 쪽번호·전체 장수는 자동 갱신됩니다.
+
+기본 동작은 발표 진입점에서 해당 페이지를 제외하는 것입니다. 복구할 수 있도록 원래 장표 파일과 이미지는 로컬에 보존합니다. 파일까지 지우려면 명시적으로 요청해야 하며, 다른 장표에서 사용하는 파일은 삭제하지 않습니다. 표지 삭제는 먼저 확인하고, 전체 장표를 한 번에 삭제해 빈 덱을 만들지는 않습니다. 원문은 유지하며, 기존 PDF/PPTX는 다시 내보내기 전까지 이전 상태입니다.
+
 ## 구조
 - 채팅의 `/create-deck` 입력 텍스트 — 새 덱의 원문 Source of Truth
 - `content/source.txt` — 채팅 원문의 자동 보관본; 직접 작성할 필요 없음
@@ -92,7 +103,7 @@ Copilot은 `content/slides.md`의 5번째 `src`를 찾아 해당 파일만 수�
 - `global-bottom.vue` — 표지를 포함한 전체 슬라이드의 자동 쪽번호
 - `styles/index.css` — 공통 디자인 시스템
 - `.github/copilot-instructions.md` — Copilot의 프로젝트 공통 규칙
-- `.github/skills/` — create/revise/insert/change/review 프로젝트 스킬
+- `.github/skills/` — create/revise/insert/delete/change/review 프로젝트 스킬
 
 ## PDF / Download
 `npm run build`는 `content/dist/`에 웹 빌드를, `npm run export`는 `content/dist/presentation.pdf`를, `npm run export:pptx`는 `content/dist/presentation.pptx`를 생성합니다. 빌드에는 Slidev의 `--download` 옵션이 포함되어 있어 빌드된 SPA에서도 PDF 다운로드 기능을 사용할 수 있습니다.

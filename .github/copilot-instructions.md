@@ -66,5 +66,11 @@ When asked to revise slide N:
 - Add a unique slide file and its `src` reference; preserve existing slide files, filenames, relative order, metadata, and shared styles. Automatic page numbering must follow the new order.
 - A slide insertion permits a narrow update of the existing storyline's order/count and appending newly supplied material to the local source snapshot, not a deck-wide rewrite.
 
+## Slide deletion
+- Use `/delete-slide` to remove requested pages using the original ordered `src` entries in `content/slides.md`, including the cover as page 1.
+- Remove only selected references and their slide blocks; preserve metadata and the surviving order. Confirm cover removal and never leave an empty deck.
+- Retain removed slide files locally unless physical file deletion was explicitly requested. Never delete shared assets or source records as a side effect.
+- A page deletion permits a narrow update of the existing storyline's order/count, not rewriting surviving slides. Automatic page numbering follows the surviving order.
+
 ## Build validation
 After material changes, run `npm run build` when possible. For PDF export use `npm run export`.
