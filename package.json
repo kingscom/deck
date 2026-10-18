@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "slidev content/slides.md --open",
     "build": "slidev build content/slides.md --out dist --download",
-    "export": "slidev export content/slides.md --format pdf --output content/dist/presentation.pdf",
+    "export": "slidev export content/slides.md --format pdf --output content/dist/presentation.pdf --per-slide",
     "export:pptx": "slidev export content/slides.md --format pptx-editable --output content/dist/presentation.pptx"
   },
   "devDependencies": {
