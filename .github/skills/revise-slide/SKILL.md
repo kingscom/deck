@@ -17,5 +17,6 @@ Hard rules:
 - Do not edit global CSS or shared components merely to solve one slide.
 - You may change the local composition, visual pattern, copy density, and hierarchy.
 - Keep one dominant message.
+- Keep the governing headline as a continuous sentence; avoid manual line breaks unless its length genuinely requires two lines, and prefer natural wrapping.
 - Run `npm run build` after the change (use `npm.cmd run build` on Windows if PowerShell blocks `npm.ps1`).
 - Report the changed file path.
