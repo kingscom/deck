@@ -18,5 +18,6 @@ Hard rules:
 - You may change the local composition, visual pattern, copy density, and hierarchy.
 - Keep one dominant message.
 - Keep the governing headline as a continuous sentence; avoid manual line breaks unless its length genuinely requires two lines, and prefer natural wrapping.
+- Keep one key word or concise phrase in the governing headline highlighted with `<span class="accent">...</span>`; do not remove the blue emphasis when simplifying or reflowing the headline.
 - Run `npm run build` after the change (use `npm.cmd run build` on Windows if PowerShell blocks `npm.ps1`).
 - Report the changed file path.

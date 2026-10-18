@@ -19,7 +19,7 @@ This repository is a Slidev-based presentation system. Treat presentation work a
 
 ## Narrative rules
 1. One slide = one message.
-2. Use conclusion-style headlines, not section labels. Write each headline as a continuous sentence; do not insert a manual line break just to force a two-line layout. Let long headlines wrap naturally, and use two lines only when the text needs the extra space.
+2. Use conclusion-style headlines, not section labels. Write each headline as a continuous sentence; do not insert a manual line break just to force a two-line layout. Let long headlines wrap naturally, and use two lines only when the text needs the extra space. In every governing headline, emphasize one key word or concise phrase with `<span class="accent">...</span>` so the deck's blue accent remains visible; do not rely on a line break for emphasis or color only punctuation.
 3. Compress aggressively; do not paste source paragraphs onto slides.
 4. Adapt the narrative, slide count, and visual patterns to the supplied content and requested duration. Prefer 5–12 slides unless the source requires otherwise; never pad sparse material or reuse a previous deck's storyline by default.
 5. Preserve the author's intent and terminology.

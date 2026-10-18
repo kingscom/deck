@@ -16,6 +16,7 @@ Check:
 - repeated layouts
 - excessive text density
 - weak headline hierarchy
+- missing blue accent emphasis on the key phrase in governing headlines
 - inconsistent terminology
 - visual pattern misuse
 - overflow or build errors
