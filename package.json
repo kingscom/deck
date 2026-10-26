@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "slidev content/slides.md --open",
-    "build": "slidev build content/slides.md --out dist --download",
+    "build": "slidev build content/slides.md --out dist --download && node scripts/add-pdf-links.mjs content/slides.md content/dist/slidev-exported.pdf",
     "export": "slidev export content/slides.md --format pdf --output content/dist/presentation.pdf --per-slide && node scripts/add-pdf-links.mjs content/slides.md content/dist/presentation.pdf",
     "export:pptx": "slidev export content/slides.md --format pptx-editable --output content/dist/presentation.pptx"
   },

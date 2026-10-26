@@ -124,7 +124,7 @@ back: framework
 - `.github/skills/` — create/revise/insert/delete/change/review 프로젝트 스킬
 
 ## PDF / Download
-`npm run build`는 `content/dist/`에 웹 빌드를, `npm run export`는 `content/dist/presentation.pdf`를, `npm run export:pptx`는 `content/dist/presentation.pptx`를 생성합니다. 빌드에는 Slidev의 `--download` 옵션이 포함되어 있어 빌드된 SPA에서도 PDF 다운로드 기능을 사용할 수 있습니다.
+`npm run build`는 `content/dist/`에 웹 빌드를, `npm run export`는 `content/dist/presentation.pdf`를, `npm run export:pptx`는 `content/dist/presentation.pptx`를 생성합니다. 빌드에는 Slidev의 `--download` 옵션이 포함되어 있어 빌드된 SPA에서도 PDF 다운로드 기능을 사용할 수 있으며, 이 PDF(`slidev-exported.pdf`)에도 빌드 직후 "상세 보기 / 돌아가기" 링크가 들어갑니다.
 
 ## 로컬 발표 폴더
 입력과 결과물은 모두 `content/` 하나 아래에서 관리합니다.
