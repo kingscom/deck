@@ -60,6 +60,12 @@ When asked to revise slide N:
 4. Preserve factual meaning unless the user asks to change content.
 5. After revision, briefly state exactly which file changed.
 
+## Slide detail links
+- A slide can show a pill button next to the page number (`global-bottom.vue`) that jumps to another slide: add `routeAlias: <name>` to the target slide's frontmatter, then `detail: <name>` (shows "상세 보기 →") and/or `back: <name>` (shows "← 돌아가기") to the source slide's frontmatter.
+- Links use `routeAlias` names, never page numbers, so they survive inserting, deleting, moving, or renumbering slides. Do not rewrite or remove these frontmatter keys when renumbering file names; they stay with their slide file.
+- `npm run export` runs `scripts/add-pdf-links.mjs` afterward, which turns the same frontmatter into clickable PDF links. If an alias in `detail`/`back` has no matching `routeAlias`, the export fails with the slide number and alias. `/delete-slide` must warn when a removed slide's `routeAlias` is referenced by a surviving slide (or a removed slide's `detail`/`back` target survives), and ask before editing.
+- Aliases are unique, lowercase, hyphenated names.
+
 ## Slide file numbering
 - Every slide file referenced by `content/slides.md` is named `NN-slug.md`, where `NN` equals its current page number, zero-padded to two digits (three digits above 99). The cover is `01-...`.
 - `/insert-slide` and `/delete-slide` renumber the affected files' `NN-` prefixes so they match the new order, keeping each slug and every file's content unchanged. Renaming uses two phases (temporary names, then final names) to avoid collisions, and the `src` references and the storyline's file-name column are updated to the new names in the same step.
