@@ -69,7 +69,7 @@ When asked to revise slide N:
 ## Slide deletion
 - Use `/delete-slide` to remove requested pages using the original ordered `src` entries in `content/slides.md`, including the cover as page 1.
 - Remove only selected references and their slide blocks; preserve metadata and the surviving order. Confirm cover removal and never leave an empty deck.
-- Retain removed slide files locally unless physical file deletion was explicitly requested. Never delete shared assets or source records as a side effect.
+- Removed slide files are either retained locally or physically deleted, as the user chooses; if the request does not say, ask. Delete only exact, unreferenced `content/slides/*.md` files. Never delete shared assets, `content/public/` files, or source records as a side effect.
 - A page deletion permits a narrow update of the existing storyline's order/count, not rewriting surviving slides. Automatic page numbering follows the surviving order.
 
 ## Build validation
