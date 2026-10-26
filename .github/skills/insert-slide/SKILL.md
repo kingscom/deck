@@ -31,8 +31,6 @@ All project file paths below are relative to the workspace root, not this skill 
 9. Keep all presentation data under the Git-ignored `content/` folder: source records, storylines, entry, slides, attached assets in `content/public/`, and exports in `content/dist/`. Reference public assets by URL such as `/image.png`. Never force-add presentation data. Copy user attachments without modifying the originals or overwriting existing assets.
 
 ## Validation and report
-- Apply all ten PPT Visualization principles in the `Visual selection` section of `.github/copilot-instructions.md` when composing the new slide: define the message before choosing its visual and layout, use Diagram First and explicit connections for supported relationships, establish hierarchy and whitespace, expose message-relevant numbers, and choose charts by purpose with a source-supported "So What?" insight. Focus accent color on one or two key elements including the headline phrase. Avoid repeating neighboring card layouts without changing those slides or inventing data and relationships.
-- Run the common seven-question final visualization check on the inserted slide.
 - Verify the page count increased by exactly one, the new reference appears exactly once at the requested position, every referenced file exists, and removing the new reference reproduces the original ordered references.
 - Verify all pre-existing slide files are unchanged and the cover remains first unless the user explicitly approved otherwise.
 - Run `npm run build` (use `npm.cmd run build` on Windows if PowerShell blocks `npm.ps1`) and fix errors caused by this insertion.
