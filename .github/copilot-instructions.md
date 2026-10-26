@@ -7,7 +7,7 @@ This repository is a Slidev-based presentation system. Treat presentation work a
 - `content/source.txt`: automatic verbatim record of the source text for the current deck. Save it when creating a deck; users do not need to prepare this file. Keep presentation requirements separate from source facts. Never invent facts, metrics, owners, dates, evidence, or causal claims not supported by the source.
 - `content/source.md`: legacy source for existing decks only when `content/source.txt` does not exist. Do not use it as a fallback input for a new `/create-deck` invocation or combine it with new source text.
 - `content/storyline.md`: current narrative plan. Update only when the user requests storyline/deck-level changes.
-- `content/slides.md`: presentation entry point. Each slide must include `src: ./slides/NN-name.md` relative to this entry and page content must live in the referenced file. Set `addons: ['@/..']` in deck headmatter to load shared components, styles, and global overlays from the workspace root. Slidev's `@/` anchors this path to the entry folder.
+- `content/slides.md`: presentation entry point. Each slide must include `src: ./slides/NN-name.md` relative to this entry and page content must live in the referenced file. `NN` is the slide's zero-padded page number (see "Slide file numbering"). Set `addons: ['@/..']` in deck headmatter to load shared components, styles, and global overlays from the workspace root. Slidev's `@/` anchors this path to the entry folder.
 - `content/slides/*.md`: one file per slide. For a slide-specific revision, modify only that slide unless a shared component must change.
 - `components/*.vue`: reusable visual patterns.
 - `styles/index.css`: global design system. Do not modify for a local slide request.
@@ -60,15 +60,21 @@ When asked to revise slide N:
 4. Preserve factual meaning unless the user asks to change content.
 5. After revision, briefly state exactly which file changed.
 
+## Slide file numbering
+- Every slide file referenced by `content/slides.md` is named `NN-slug.md`, where `NN` equals its current page number, zero-padded to two digits (three digits above 99). The cover is `01-...`.
+- `/insert-slide` and `/delete-slide` renumber the affected files' `NN-` prefixes so they match the new order, keeping each slug and every file's content unchanged. Renaming uses two phases (temporary names, then final names) to avoid collisions, and the `src` references and the storyline's file-name column are updated to the new names in the same step.
+- Slide files no longer referenced by the deck (for example, retained after `/delete-slide`) are never renumbered. If a renumbered name would collide with one, prefix the unreferenced file with `removed-` instead of overwriting it.
+- Actual page order always comes from `content/slides.md`, never from file names. Other skills (`/revise-slide`, `/change-visual`, `/review-deck`) must not rename files.
+
 ## Slide insertion
 - Use `/insert-slide` to add a page without replacing an existing slide. Count positions from ordered `src` entries in `content/slides.md`, including the cover as page 1.
 - "Insert at page N" makes the new slide page N and shifts later pages back; "after page N" inserts at N+1. Ask before moving the cover away from the first position.
-- Add a unique slide file and its `src` reference; preserve existing slide files, filenames, relative order, metadata, and shared styles. Automatic page numbering must follow the new order.
+- Add a unique slide file and its `src` reference at the new position; preserve existing slide contents, relative order, metadata, and shared styles. Renumber file name prefixes to the new page order (see "Slide file numbering"). Automatic page numbering must follow the new order.
 - A slide insertion permits a narrow update of the existing storyline's order/count and appending newly supplied material to the local source snapshot, not a deck-wide rewrite.
 
 ## Slide deletion
 - Use `/delete-slide` to remove requested pages using the original ordered `src` entries in `content/slides.md`, including the cover as page 1.
-- Remove only selected references and their slide blocks; preserve metadata and the surviving order. Confirm cover removal and never leave an empty deck.
+- Remove only selected references and their slide blocks; preserve metadata and the surviving order. Confirm cover removal and never leave an empty deck. Renumber the surviving files' name prefixes to the new page order (see "Slide file numbering").
 - Removed slide files are either retained locally or physically deleted, as the user chooses; if the request does not say, ask. Delete only exact, unreferenced `content/slides/*.md` files. Never delete shared assets, `content/public/` files, or source records as a side effect.
 - A page deletion permits a narrow update of the existing storyline's order/count, not rewriting surviving slides. Automatic page numbering follows the surviving order.
 
